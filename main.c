@@ -12,7 +12,7 @@ int world[WORLD_WIDTH][WORLD_HEIGHT] =
 { 0, 0, 0, 0, 0, 0, 0, 0 },
 { 1, 0, 0, 0, 0, 0, 0, 0 },
 { 1, 0, 0, 1, 0, 0, 0, 0 },
-{ 1, 0, 0, 0, 0, 0, 0, 0 },
+{ 1, 0, 0, 0, 0, 0, 2, 0 },
 { 1, 0, 0, 0, 1, 0, 0, 0 },
 { 1, 0, 0, 0, 0, 0, 0, 0 },
 { 1, 0, 0, 0, 0, 0, 0, 0 },
@@ -50,6 +50,12 @@ void draw_world()
 			{
 				DrawRectangle(x * cell_size, y * cell_size, cell_size, cell_size, BLACK);
 			}
+
+			if (world[y][x] == 2)
+			{
+				DrawRectangle(x * cell_size, y * cell_size, cell_size, cell_size, GREEN);
+			}
+
 		}
 	}
 
