@@ -9,7 +9,7 @@ struct {
 	uint32_t** level;
 	uint32_t levelWidth, levelHeight;
 	uint32_t tileCount;
-	uint32_t* colors;
+	Color* colors;
 	
 	//player
 	uint32_t px, py;
@@ -50,7 +50,7 @@ void draw_level(int offsetx, int offsety, int tilesizex, int tilesizey)
 		{
 			for (int32_t y = 0; y < state.levelHeight; y++)
 			{
-				DrawRectangle(offsetx + (x * tilesizex), offsety + (y * tilesizey), tilesizex, tilesizey, BLACK);
+				DrawRectangle(offsetx + (x * tilesizex), offsety + (y * tilesizey), tilesizex, tilesizey, state.colors[i]);
 			}
 		}
 	}
