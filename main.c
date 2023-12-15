@@ -42,7 +42,7 @@ void unpack_color(const uint32_t color, uint8_t* r, uint8_t* g, uint8_t* b, uint
 	*a = (color >> 24) & 255;
 }
 
-void draw_level()
+void draw_level(int offsetx, int offsety, int tilesizex, int tilesizey)
 {
 	for (int32_t i = 0; i < state.tileCount; i++)
 	{
@@ -50,7 +50,7 @@ void draw_level()
 		{
 			for (int32_t y = 0; y < state.levelHeight; y++)
 			{
-
+				DrawRectangle(offsetx + (x * tilesizex), offsety + (y * tilesizey), tilesizex, tilesizey, BLACK);
 			}
 		}
 	}
@@ -63,6 +63,14 @@ void init()
 
 int main()
 {
+	InitWindow(400, 400, "Henlo");
+
+	while (!WindowShouldClose())
+	{
+		BeginDrawing();
+		draw_level(0, 0, 50, 50);
+		EndDrawing();
+	}
 
 	return 0;
 }
