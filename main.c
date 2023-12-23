@@ -3,31 +3,24 @@
 
 #include<raylib.h>
 
-// The level Array has a "layer" for every type of tile so you can easily add more.
-
 struct {
-	uint32_t** level;
+	uint32_t* walls;
+	uint32_t* boxes;
+	uint32_t* markers;
 	uint32_t levelWidth, levelHeight;
-	uint32_t tileCount;
-	Color* colors;
 	
 	//player
 	uint32_t px, py;
 } state;
 
-void set_tile(int tile, int x, int y, int val)
+void set_wall(int x, int y, uint32_t val)
 {
-	state.level[tile][y * state.levelWidth + x] = val;
+	state.walls[x + (y * state.levelHeight)] = val;
 }
 
-void setWall(int x, int y, bool val)
+void set_box(int x, int y, uint32_t val)
 {
-	set_tile(0, x, y, val);
-}
-
-void setBox(int x, int y, bool val)
-{
-	set_tile(1, x, y, val);
+	state.boxes[x + (y * state.levelHeight)] = val;
 }
 
 uint32_t pack_color(uint8_t r, uint8_t g, uint8_t b, uint32_t a)
@@ -44,21 +37,58 @@ void unpack_color(const uint32_t color, uint8_t* r, uint8_t* g, uint8_t* b, uint
 
 void draw_level(int offsetx, int offsety, int tilesizex, int tilesizey)
 {
-	for (int32_t i = 0; i < state.tileCount; i++)
+	//loop over every tile
+	for (uint32_t x = 0; x < state.levelWidth; x++)
 	{
-		for (int32_t x = 0; x < state.levelWidth; x++)
+		for (uint32_t y = 0; y < state.levelHeight; y++)
 		{
-			for (int32_t y = 0; y < state.levelHeight; y++)
+			//Walls
+			if (state.walls[x + (y * state.levelWidth)] != 0)
 			{
-				DrawRectangle(offsetx + (x * tilesizex), offsety + (y * tilesizey), tilesizex, tilesizey, state.colors[i]);
+				DrawRectangle(offsetx + (x * tilesizex), offsety + (y * tilesizey), tilesizex, tilesizey, BLACK);
 			}
+		}
+	}
+}
+
+void update_level()
+{
+	//loop over every tile
+	for (int32_t x = 0; x < state.levelWidth; x++)
+	{
+		for (int32_t y = 0; y < state.levelHeight; y++)
+		{
+			
 		}
 	}
 }
 
 void init()
 {
+	uint32_t t[] =
+	{
+		1, 1, 1, 1, 1, 1, 1, 1,
+		1, 0, 0, 0, 0, 0, 0, 1,
+		1, 0, 1, 0, 0, 0, 0, 1,
+		1, 0, 0, 0, 0, 0, 0, 1,
+		1, 0, 0, 1, 0, 0, 0, 1,
+		1, 0, 0, 0, 0, 0, 0, 1,
+		1, 0, 0, 0, 0, 0, 0, 1,
+		1, 1, 1, 1, 1, 1, 1, 1
+	};
 
+	uint32_t tt[] =
+	{
+		0, 0, 0, 0, 0, 0, 0, 0,
+		0, 0, 0, 0, 1, 0, 0, 0,
+		0, 0, 0, 1, 1, 0, 0, 0,
+		0, 0, 0, 0, 0, 0, 0, 0,
+		0, 0, 0, 0, 0, 0, 0, 0,
+		0, 0, 0, 0, 0, 0, 0, 0,
+		0, 0, 0, 0, 0, 0, 0, 0,
+		0, 0, 0, 0, 0, 0, 0, 0
+	};
+	state.walls = t;
 }
 
 int main()
@@ -68,6 +98,7 @@ int main()
 	while (!WindowShouldClose())
 	{
 		BeginDrawing();
+		ClearBackground(WHITE);
 		draw_level(0, 0, 50, 50);
 		EndDrawing();
 	}
